@@ -3,19 +3,13 @@
 
 #include <string>
 #include <iostream>
-#include <cctype>
 #include <cstdlib>
-#include <cstdio>
-#include "Token.h"
+#include "token.h"
 
 using std::string;
 using std::istream;
 
 struct Lexer{
-    istream &sourceStream;
-    size_t currentLine;
-
-public:
     Lexer(istream &sourceStream):
         sourceStream(sourceStream),
         currentLine(1)
@@ -29,6 +23,9 @@ public:
     }
 
 private:
+    istream &sourceStream;
+    size_t currentLine;
+
     Token getIdentifier();
     Token getNumber();
     Token getSymbol();

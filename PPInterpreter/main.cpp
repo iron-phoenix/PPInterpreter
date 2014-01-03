@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iterator>
 #include "lexer.h"
+#include "ast.h"
 
 using std::cout;
 using std::endl;
