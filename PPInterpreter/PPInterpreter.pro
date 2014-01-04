@@ -12,5 +12,6 @@ HEADERS += \
     ast.h \
     token.h \
     parser.h \
-    programContext.h
+    programContext.h \
+    visitor.h
 

@@ -5,6 +5,7 @@
 #include <vector>
 #include <tr1/memory>
 #include "lexer.h"
+#include "visitor.h"
 
 using std::string;
 using std::vector;
@@ -22,6 +23,8 @@ struct Instruction {
     size_t getLineNumber() const{
         return lineNumber;
     }
+
+    virtual int accept(Visitor &) = 0;
 
 private:
     size_t lineNumber;
@@ -45,6 +48,10 @@ struct Program: public InstructionList {
     Program(Instructions const &instructions, size_t lineNumber):
         InstructionList(instructions, lineNumber)
     {}
+
+    int accept(Visitor &v){
+        return v.visit(*this);
+    }
 };
 
 struct FunDef: public InstructionList {
@@ -60,6 +67,10 @@ struct FunDef: public InstructionList {
 
     vector<string> const &getParams() const{
         return params;
+    }
+
+    int accept(Visitor &v){
+        return v.visit(*this);
     }
 
 private:
@@ -82,6 +93,10 @@ struct VarDef: public Instruction {
         return exp;
     }
 
+    int accept(Visitor &v){
+        return v.visit(*this);
+    }
+
 private:
     string name;
     InstructionPtr exp;
@@ -97,6 +112,10 @@ struct Num: public Instruction {
         return value;
     }
 
+    int accept(Visitor &v){
+        return v.visit(*this);
+    }
+
 private:
     int value;
 };
@@ -109,6 +128,10 @@ struct Var: public Instruction {
 
     string const &getName() const{
         return name;
+    }
+
+    int accept(Visitor &v){
+        return v.visit(*this);
     }
 
 private:
@@ -128,6 +151,10 @@ struct FunCall: public Instruction {
 
     Instructions const &getParams() const{
         return params;
+    }
+
+    int accept(Visitor &v){
+        return v.visit(*this);
     }
 
 private:
@@ -155,6 +182,10 @@ struct Operator: public Instruction {
         return right;
     }
 
+    int accept(Visitor &v){
+        return v.visit(*this);
+    }
+
 private:
     char operation;
     InstructionPtr left;
@@ -171,6 +202,10 @@ struct Read: public Instruction {
         return var;
     }
 
+    int accept(Visitor &v){
+        return v.visit(*this);
+    }
+
 private:
     string var;
 };
@@ -183,6 +218,10 @@ struct Print: public Instruction {
 
     InstructionPtr getExp() const{
         return exp;
+    }
+
+    int accept(Visitor &v){
+        return v.visit(*this);
     }
 
 private:
@@ -209,6 +248,10 @@ struct Cond: public Instruction {
         return right;
     }
 
+    int accept(Visitor &v){
+        return v.visit(*this);
+    }
+
 private:
     InstructionPtr left;
     InstructionPtr right;
@@ -225,6 +268,10 @@ struct If: public InstructionList {
         return cond;
     }
 
+    int accept(Visitor &v){
+        return v.visit(*this);
+    }
+
 private:
     InstructionPtr cond;
 };
@@ -239,6 +286,10 @@ struct While: public InstructionList {
         return cond;
     }
 
+    int accept(Visitor &v){
+        return v.visit(*this);
+    }
+
 private:
     InstructionPtr cond;
 };
@@ -251,6 +302,10 @@ struct Return: public Instruction {
 
     InstructionPtr getExp() const{
         return exp;
+    }
+
+    int accept(Visitor &v){
+        return v.visit(*this);
     }
 
 private:
