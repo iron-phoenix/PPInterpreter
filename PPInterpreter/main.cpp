@@ -1,8 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <iterator>
-#include "lexer.h"
-#include "ast.h"
+#include "parser.h"
 
 using std::cout;
 using std::endl;
@@ -23,11 +22,7 @@ int main(int args, char const *argv[])
         return 2;
     }
     in >> std::noskipws;
-    Lexer lexer(in);
-    Token t = lexer.nextToken();
-    while(t.type != Token::Eof){
-        cout << t.type << " - " << lexer.getLineNumber() << endl;
-        t = lexer.nextToken();
-    }
+    Parser parser(in);
+    ProgramContext pc = parser.parse();
     return 0;
 }

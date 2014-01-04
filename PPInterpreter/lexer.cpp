@@ -2,17 +2,20 @@
 
 bool Lexer::checkToken(Token::Type t, size_t steps){
     Token token;
+    int position = sourceStream.tellg();
+    int curLine = currentLine;
     for (size_t i = 0; i != steps; ++i)
         token = nextToken();
+    sourceStream.seekg(position);
+    currentLine = curLine;
     return (token.type == t);
 }
 
 Token Lexer::nextToken(){
     char peek = sourceStream.get();
-    while (!sourceStream.eof() && isspace(peek) && peek != '\n')
-        peek = sourceStream.get();
+    while (sourceStream && isspace(peek) && peek != '\n') peek = sourceStream.get();
 
-    if (sourceStream.eof()) return Token::Eof;
+    if (!sourceStream) return Token::Eof;
 
     if (peek == '#')
         while (peek != '\n')
@@ -54,7 +57,7 @@ Token Lexer::getIdentifier(){
         return Token::PRINT;
     if (temp == "read")
         return Token::READ;
-    return Token(Token::VAR, 0, temp);
+    return Token(Token::ID, 0, temp);
 }
 
 Token Lexer::getNumber(){

@@ -11,7 +11,7 @@ struct Token{
         ASGN, EQ, NE, GE, LE, GT, LT,
         PLUS, MINUS, MULT, DIV,
         DEF, RET, END, WHILE, IF, PRINT, READ,
-        VAR, NUM,
+        ID, NUM,
         CR, WTF, Eof
     };
 
